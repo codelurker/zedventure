@@ -1,0 +1,38 @@
+This is zedventure, a simple roguelike game written in Python. The object
+of the game is never the same, nor is the dungeon. You have only your own
+aspirations and skills to guide you. Good luck!
+
+Zedventure is a small game, in terms of the amount of code required. This
+game was written from scratch in seven days, inspired by a discussion on
+the usenet group rec.games.roguelike.development. The game is designed for
+maximum replayability with a modest implementation size and time.
+
+Zack Hobson
+zhobson@gmail.com
+
+Sunday Jan 16 2005
+==================
+ - implemented required scaffolding for game loop, interface etc.
+ - movement commands implemented, including the north/south hack
+ - working mock-up of the "hero" moving around a "hex" grid
+
+Monday Jan 17 2005
+==================
+ - running! easier and quicker to code than I thought it would be
+ - added dungeon features (blockable and non-)
+ - added dungeon occupants
+
+Tuesday Jan 18 2005
+===================
+ - name generator! didn't really expect to write one, but there you go
+ - redesigned the event loop system, interesting but not productive
+
+Wednesday Jan 19 2005
+=====================
+ - monsters are self-motivated, sort of
+ - basic combat traits
+
+Thursday Jan 20 2005
+====================
+ - beginning to resemble an actual game, the monsters are killable!
+

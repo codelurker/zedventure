@@ -1,0 +1,8 @@
+#!/usr/bin/env python2.4
+from sys import argv
+from curses import wrapper
+from game import Zedventure
+if __name__ == '__main__':
+    main = Zedventure(argv)
+    wrapper(main)
+
