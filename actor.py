@@ -2,6 +2,7 @@ from errors import *
 import commands
 import armor
 import weapon
+from treasure import Gold
 
 class Actor (object):
     move_speed = 7
@@ -9,12 +10,14 @@ class Actor (object):
     glyph = '0'
     desc = 'the actor'
     __slots__ = ('_world','y','x','_hp','hpmax','_mp','mpmax',
-                'wait_until','desc')
+                'wait_until','desc','_gold')
+
     def __init__(self,world,y,x):
         self._world = world
         self._world.enter(y,x,self)
         self._hp, self.hpmax, self._mp, self.mpmax = 1, 1, 1, 1
         self.wait_until = self._world.game.time
+        self._gold = 0
 
     def __str__(self):
         if self.desc:
@@ -29,6 +32,7 @@ class Actor (object):
         for x in xrange(self.hd):
             self.hpmax += self._world.game.rng.randint(1,7)
         self._hp = self.hpmax
+        self._gold = self._world.game.rng.randint(0,self.hd * self.hpmax / self._hp * 5)
 
     def do_walk(self,y,x):
         """T.do_walk(y,x) -> integer"""
@@ -73,8 +77,10 @@ class Actor (object):
             if a is self:
                 an = n
                 break
-        del self._world.game.actors[an]
         self._world.leave(self.y,self.x,self)
+        if (self._gold):
+            self._world.place(Gold(self._gold),self.y,self.x)
+        del self._world.game.actors[an]
 
     def act(self):
         time = self._act()
@@ -99,6 +105,9 @@ class Actor (object):
         else:
             self._mp = new_mp
     mp = property(get_mp,set_mp,None,'mana points, cannot go below zero')
+
+    def get_gold(self): return self._gold
+    gold = property(get_gold,None,None,'gold')
 
     _CON = 'bbcccddfffggghhjjjkklllmmmnnnnppqrrrrsssttvwwwxzz'
     _VOW = 'aaaeeeeiiiiooouuy'
@@ -192,7 +201,10 @@ class Hero (Actor):
 
     def equip(self,item):
         old_item = None
-        if isinstance(item, armor.Armor):
+        if isinstance(item, Gold):
+            old_item = 0;
+            self._gold = self._gold + item.amount
+        elif isinstance(item, armor.Armor):
             old_item = self.armor
             self.armor = item
         elif isinstance(item, weapon.Weapon):

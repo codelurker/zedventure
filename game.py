@@ -33,7 +33,7 @@ class Zedventure (object):
         self.area = world.Area(self)
         self.term = Term(self,screen)
         self.area.resize(*self.term.viewsize())
-        self.area.generate()
+        self.area.generate(0)
         self.hero = Hero(self.area,1,1,None)
         self.queue_actor(self.hero)
         self.term.redraw()
@@ -44,10 +44,14 @@ class Zedventure (object):
             if actor.wait_until <= self.time:
                 try:
                     actor.act()
-                except WasKilled:
-                    self.term.msg('you died.')
+                except Escaped:
+                    self.term.msg('You escaped with %d gold!' % self.hero.gold)
                     self.term.waitforkey()
-                    self.running = 0
+                    self.running = False
+                except WasKilled:
+                    self.term.msg('You died.')
+                    self.term.waitforkey()
+                    self.running = False
                 # this removes the actor from the top of the heap
                 # and adds it back to the bottom
                 heapreplace(self.actors,actor)
@@ -55,11 +59,17 @@ class Zedventure (object):
             else:
                 self.time += 1
 
-    def next_level(self):
-        self.actors = []
-        self.area.generate()
+    def new_level(self,increment):
+        self.area.generate(increment)
         self.area.occ[self.hero.y,self.hero.x] = self.hero
+        self.actors = []
         self.queue_actor(self.hero)
+
+    def prev_level(self):
+        self.new_level(-1)
+
+    def next_level(self):
+        self.new_level(1)
 
     def queue_actor(self,actor):
         heappush(self.actors,actor)

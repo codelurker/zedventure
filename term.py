@@ -40,9 +40,15 @@ class Term (object):
         curses.doupdate()
 
     def draw_status(self):
-        self.stat.addstr(0,0,"Hp %-2d(%d) " % (self.game.hero._hp,self.game.hero.hpmax))
-        self.stat.addstr(0,60,"Exp %d/%d " % (self.game.hero.xplvl,self.game.hero.xp))
-        self.stat.addstr(1,0,"%s in Dungeon lvl %d" % (self.game.hero,self.game.area.depth))
+        hero = self.game.hero
+        self.stat.addstr(0,0,"Hp %-3d(%d) " % (hero._hp,hero.hpmax))
+        self.stat.addstr(0,15,"$%-6d " % (hero.gold))
+        if hero.weapon:
+            self.stat.addstr(0,25,"Dmg %-2d " % (((hero.weapon.damage[0]+hero.weapon.damage[1])/2)+hero.weapon.bonus))
+        if hero.armor:
+            self.stat.addstr(0,32,"AC %-2d " % (hero.armor.ac + hero.armor.bonus))
+        self.stat.addstr(0,60,"Exp %d/%d " % (hero.xplvl,hero.xp))
+        self.stat.addstr(1,0,"%s in Dungeon lvl %d" % (hero,self.game.area.depth))
         self.stat.noutrefresh()
 
     def draw_main(self):

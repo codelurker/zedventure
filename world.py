@@ -30,17 +30,21 @@ class Area (object):
         self.occ = {}
         self.item = {}
 
-    def place(self,item):
-        y, x = World.size()
-        while True:
-            k = World.game.rng.randrange(1,y,2)
-            j = World.game.rng.randrange(1,x,2)
-            if not self.is_block(k,j):
-                break
-        self.item[k,j] = item
-        
-    def generate(self):
-        self.depth += 1
+    def place(self,item,y=None,x=None):
+        if y == None and x == None:
+            y, x = World.size()
+            while True:
+                k = World.game.rng.randrange(1,y,2)
+                j = World.game.rng.randrange(1,x,2)
+                if not self.is_block(k,j):
+                    break
+            self.item[k,j] = item
+        else:
+            self.item[y,x] = item
+
+    def generate(self,increment):
+        self.depth += increment
+        if self.depth < 0: raise Escaped
         for k in xrange(self.y):
             for j in xrange(self.x):
                 if self.game.percent_chance(25):

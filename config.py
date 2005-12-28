@@ -11,6 +11,7 @@ command = {
     ']': (show_worn,),
     ')': (show_wielded,),
     '.': (wait,),
+    '<': (upstairs,),
     '>': (downstairs,),
     'h': (move, WEST),
     'H': (run, WEST),

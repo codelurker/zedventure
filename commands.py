@@ -55,7 +55,11 @@ def quit(game):
 
 def downstairs(game):
     game.next_level()
-    return 14
+    return 0
+
+def upstairs(game):
+    game.prev_level()
+    return 0
 
 def move(game,dir):
     try:

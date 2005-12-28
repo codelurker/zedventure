@@ -7,6 +7,9 @@ class MovementBlocked (Exception):
 class NoSuchPlace (Exception):
     pass
 
+class Escaped (Exception):
+    pass
+
 class WasKilled (Exception):
     def __init__(self,actor):
         self.victim = actor
