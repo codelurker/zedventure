@@ -1,14 +1,20 @@
+from errors import *
+import commands
+import armor
+import weapon
+
 class Actor (object):
     move_speed = 7
     attack_speed = 7
     glyph = '0'
     desc = 'the actor'
-    __slots__ = ('y','x','_hp','hpmax','_mp','mpmax',
+    __slots__ = ('_world','y','x','_hp','hpmax','_mp','mpmax',
                 'wait_until','desc')
-    def __init__(self,y,x):
-        World.enter(y,x,self)
+    def __init__(self,world,y,x):
+        self._world = world
+        self._world.enter(y,x,self)
         self._hp, self.hpmax, self._mp, self.mpmax = 1, 1, 1, 1
-        self.wait_until = World.game.time
+        self.wait_until = self._world.game.time
 
     def __str__(self):
         if self.desc:
@@ -21,40 +27,40 @@ class Actor (object):
     def generate(self):
         self.hpmax = 0
         for x in xrange(self.hd):
-            self.hpmax += World.game.rng.randint(1,7)
+            self.hpmax += self._world.game.rng.randint(1,7)
         self._hp = self.hpmax
 
     def do_walk(self,y,x):
         """T.do_walk(y,x) -> integer"""
         yy = self.y + y
         xx = self.x + x
-        if not World.is_valid(yy,xx):
+        if not self._world.is_valid(yy,xx):
             raise NoSuchPlace, "%d, %d" % (yy,xx)
-        elif World.is_block(yy,xx):
+        elif self._world.is_block(yy,xx):
             raise MovementBlocked
-        elif World.is_occ(yy,xx):
+        elif self._world.is_occ(yy,xx):
             raise AlreadyOccupied
         else:
-            World.leave(self.y,self.x,self)
-            World.enter(yy,xx,self)
+            self._world.leave(self.y,self.x,self)
+            self._world.enter(yy,xx,self)
         return self.move_speed
 
     def do_attack(self,y,x):
         """T.do_attack(y,x) -> integer"""
-        opponent = World.occ[self.y+y,self.x+x]
+        opponent = self._world.occ[self.y+y,self.x+x]
         if opponent.is_hero():
-            damage = World.game.rng.randint(1,self.hd)
+            damage = self._world.game.rng.randint(1,self.hd)
             if opponent.armor:
-                if World.game.rng.randint(0,10) > opponent.armor.evade:
-                    World.game.term.msg('%s misses.' % self)
+                if self._world.game.rng.randint(0,10) > opponent.armor.evade:
+                    self._world.game.term.msg('%s misses.' % self)
                     return self.attack_speed
-                ac = World.game.rng.randint(0,opponent.armor.ac)
+                ac = self._world.game.rng.randint(0,opponent.armor.ac)
                 if ac >= damage:
-                    World.game.term.msg("%s's attack glanced off your armor." % self)
+                    self._world.game.term.msg("%s's attack glanced off your armor." % self)
                     return self.attack_speed
                 else:
                     damage -= ac
-            World.game.term.msg('%s attacks!' % self)
+            self._world.game.term.msg('%s attacks!' % self)
             opponent.hp -= damage
         return self.attack_speed
 
@@ -63,16 +69,16 @@ class Actor (object):
 
     def die(self):
         an = 0
-        for n, a in enumerate(World.game.actors):
+        for n, a in enumerate(self._world.game.actors):
             if a is self:
                 an = n
                 break
-        del World.game.actors[an]
-        World.leave(self.y,self.x,self)
+        del self._world.game.actors[an]
+        self._world.leave(self.y,self.x,self)
 
     def act(self):
         time = self._act()
-        self.wait_until = World.game.time + time
+        self.wait_until = self._world.game.time + time
 
     def get_hp(self): return self._hp
     def set_hp(self, new_hp):
@@ -97,41 +103,41 @@ class Actor (object):
     _CON = 'bbcccddfffggghhjjjkklllmmmnnnnppqrrrrsssttvwwwxzz'
     _VOW = 'aaaeeeeiiiiooouuy'
     def generate_name(self):
-        name_len = World.game.rng.randint(4,7)
+        name_len = self._world.game.rng.randint(4,7)
         last_chr = None
         last_con = True
-        name = World.game.rng.choice(self._CON)
+        name = self._world.game.rng.choice(self._CON)
         while len(name) < name_len:
-            if last_con and last_chr and World.game.chance_in(7):
+            if last_con and last_chr and self._world.game.chance_in(7):
                 new_chr = last_chr
             elif not last_con:
-                new_chr = World.game.rng.choice(self._CON)
+                new_chr = self._world.game.rng.choice(self._CON)
                 last_chr = new_chr
                 last_con = True
             else:
-                new_chr = World.game.rng.choice(self._VOW)
+                new_chr = self._world.game.rng.choice(self._VOW)
                 last_chr = new_chr
                 last_con = False
             name = name + new_chr
         self.desc = name.capitalize()
 
     def _act_pursue(self):
-        if World.game.chance_in(7):
-            mydir = World.game.rng.choice(commands.DIRS)
+        if self._world.game.chance_in(7):
+            mydir = self._world.game.rng.choice(commands.DIRS)
         else:
             x, y = 0, 0
-            if World.game.hero.x < self.x:
+            if self._world.game.hero.x < self.x:
                 x = -1
-            elif World.game.hero.x > self.x:
+            elif self._world.game.hero.x > self.x:
                 x = 1
-            if World.game.hero.y < self.y:
+            if self._world.game.hero.y < self.y:
                 y = -1
-            elif World.game.hero.y > self.y:
+            elif self._world.game.hero.y > self.y:
                 y = 1
             if x and not y:
                 x = 2 * x
             if y and not x:
-                if World.game.coinflip():
+                if self._world.game.coinflip():
                     x = 1
                 else:
                     x = -1
@@ -142,12 +148,12 @@ class Actor (object):
             except AlreadyOccupied:
                 return self.do_attack(*mydir)
             except (MovementBlocked, NoSuchPlace):
-                mydir = World.game.rng.choice(commands.DIRS)
+                mydir = self._world.game.rng.choice(commands.DIRS)
                 pass
 
     def _act_wander(self):
         while True:
-            mydir = World.game.rng.choice(commands.DIRS)
+            mydir = self._world.game.rng.choice(commands.DIRS)
             try:
                 return self.do_walk(*mydir)
             except AlreadyOccupied:
@@ -157,7 +163,7 @@ class Actor (object):
 
     def _act_peaceful(self):
         while True:
-            mydir = World.game.rng.choice(commands.DIRS)
+            mydir = self._world.game.rng.choice(commands.DIRS)
             try:
                 return self.do_walk(*mydir)
             except (AlreadyOccupied, MovementBlocked, NoSuchPlace):
@@ -166,8 +172,8 @@ class Actor (object):
 class Hero (Actor):
     __slot__ = ('_running','desc','weapon','armor','xplvl','_xp')
     glyph = '@'
-    def __init__(self,y,x,name=None):
-        Actor.__init__(self,y,x)
+    def __init__(self,world,y,x,name=None):
+        Actor.__init__(self,world,y,x)
         self._hp, self.hpmax = 10, 10
         self._running = None
         self.weapon = None
@@ -198,28 +204,28 @@ class Hero (Actor):
         """T.do_attack(y,x) -> integer"""
         y = self.y + y
         x = self.x + x
-        assert World.is_occ(y,x)
-        opponent = World.occ[y,x]
+        assert self._world.is_occ(y,x)
+        opponent = self._world.occ[y,x]
         time = 7
         if self.weapon:
             tohit = 10 - self.weapon.hit + opponent.hd - self.weapon.bonus
-            hit = World.game.rng.randint(1,20) >= tohit
+            hit = self._world.game.rng.randint(1,20) >= tohit
             time = self.weapon.speed
         else:
-            hit = not World.game.chance_in(7)
+            hit = not self._world.game.chance_in(7)
         if not hit:
-            World.game.term.msg('you miss %s.' % opponent)
+            self._world.game.term.msg('you miss %s.' % opponent)
         else:
             if self.weapon:
-                damage = World.game.rng.randint(*self.weapon.damage) + self.weapon.bonus
+                damage = self._world.game.rng.randint(*self.weapon.damage) + self.weapon.bonus
                 time = self.weapon.speed
             else:
-                damage = World.game.rng.randint(1,3)
+                damage = self._world.game.rng.randint(1,3)
             try:
                 opponent.hp -= damage
-                World.game.term.msg('you hit %s.' % opponent)
+                self._world.game.term.msg('you hit %s.' % opponent)
             except WasKilled, exc:
-                World.game.term.msg('you killed %s.' % exc.victim)
+                self._world.game.term.msg('you killed %s.' % exc.victim)
                 self.xp += exc.victim.hd
                 exc.victim.die()
         return time
@@ -232,12 +238,12 @@ class Hero (Actor):
             except (MovementBlocked, NoSuchPlace, AlreadyOccupied):
                 self._running = None
         else:
-            World.game.term.redraw()
-            cmd, args = World.game.term.get_command()
-            time_passed = cmd(World.game,*args)
-            if time_passed and World.game.chance_in(27 - self.xplvl):
+            self._world.game.term.redraw()
+            cmd, args = self._world.game.term.get_command()
+            time_passed = cmd(self._world.game,*args)
+            if time_passed and self._world.game.chance_in(27 - self.xplvl):
                 self.hp += 1
-        self.wait_until = World.game.time + time_passed
+        self.wait_until = self._world.game.time + time_passed
 
     XPLEVELS = [20 * (_maxlvl ** 2) + 10 for _maxlvl in xrange(20)]
     def get_xp(self): return self._xp
@@ -245,10 +251,10 @@ class Hero (Actor):
         try:
             while new_xp >= self.XPLEVELS[self.xplvl-1]:
                 self.xplvl += 1
-                hpinc = World.game.rng.randint(7,7 * self.xplvl / 2)
+                hpinc = self._world.game.rng.randint(7,7 * self.xplvl / 2)
                 self.hpmax += hpinc
                 self.hp += hpinc
-                World.game.term.msg('you have reached experience level %d!' % self.xplvl)
+                self._world.game.term.msg('you have reached experience level %d!' % self.xplvl)
         except IndexError:
             pass
         self._xp = new_xp
@@ -291,15 +297,15 @@ class Hobgoblin (Actor):
     glyph = 'h'; desc = 'the hobgoblin'; _act = Actor._act_pursue
 
 MONSTERS = [Ooze,Leech,Rat,Cockroach,Goblin,Kobold,Snake,GiantBat,Hobgoblin]
-def generate_monster():
-    y, x = World.size()
+def generate_monster(world):
+    y, x = world.size()
     mon = None
     while True:
-        k = World.game.rng.randrange(1,y,2)
-        j = World.game.rng.randrange(1,x,2)
-        if World.game.area.is_occ(k,j) or World.game.area.is_block(k,j):
+        k = world.game.rng.randrange(1,y,2)
+        j = world.game.rng.randrange(1,x,2)
+        if world.game.area.is_occ(k,j) or world.game.area.is_block(k,j):
             continue
-        mon = World.game.rng.choice(MONSTERS)(k,j)
+        mon = world.game.rng.choice(MONSTERS)(world,k,j)
         break
     mon.generate()
     return mon

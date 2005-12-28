@@ -6,6 +6,7 @@ from heapq import heappush, heappop, heapreplace
 
 import config
 import world
+from actor import Hero
 from term import Term
 from errors import *
 
@@ -33,7 +34,7 @@ class Zedventure (object):
         self.term = Term(self,screen)
         self.area.resize(*self.term.viewsize())
         self.area.generate()
-        self.hero = world.Hero(1,1,None)
+        self.hero = Hero(self.area,1,1,None)
         self.queue_actor(self.hero)
         self.term.redraw()
         # start the game

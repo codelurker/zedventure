@@ -1,6 +1,7 @@
 import commands
 import weapon
 import armor
+from actor import *
 from errors import *
 
 World = None
@@ -48,7 +49,7 @@ class Area (object):
                     self.cell[k][j] = 0
         self.occ = {}
         for x in xrange(self.game.rng.randint(2,7)):
-            self.game.queue_actor(generate_monster())
+            self.game.queue_actor(generate_monster(World))
         self.item = {}
         for x in xrange(self.game.rng.randint(1,3)):
             w = weapon.generate(self.game.rng,self.depth)
