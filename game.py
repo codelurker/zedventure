@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.4
+# vim:set ts=4 sts=4 et ai:
 
 import sys
 import random
@@ -33,9 +33,9 @@ class Zedventure (object):
         self.area = world.Area(self)
         self.term = Term(self,screen)
         self.area.resize(*self.term.viewsize())
-        self.area.generate(0)
         self.hero = Hero(self.area,1,1,None)
-        self.queue_actor(self.hero)
+        self.actors = [self.hero]
+        self.actors.extend(self.area.generate(0))
         self.term.redraw()
         # start the game
         self.running = True
@@ -52,18 +52,14 @@ class Zedventure (object):
                     self.term.msg('You died.')
                     self.term.waitforkey()
                     self.running = False
-                # this removes the actor from the top of the heap
-                # and adds it back to the bottom
-                heapreplace(self.actors,actor)
-                self.actors.sort()
+                self.queue_actor(actor)
             else:
                 self.time += 1
 
     def new_level(self,increment):
-        self.area.generate(increment)
+        self.actors = self.area.generate(increment)
+        self.actors.insert(0,self.hero)
         self.area.occ[self.hero.y,self.hero.x] = self.hero
-        self.actors = []
-        self.queue_actor(self.hero)
 
     def prev_level(self):
         self.new_level(-1)
@@ -72,8 +68,16 @@ class Zedventure (object):
         self.new_level(1)
 
     def queue_actor(self,actor):
-        heappush(self.actors,actor)
-        self.actors.sort()
+        done = False
+        for i,a in enumerate(self.actors):
+            if cmp(a, actor) > 0:
+                self.actors.remove(actor)
+                self.actors.insert(i, actor)
+                done = True
+                break
+        if not done:
+            self.actors.remove(actor)
+            self.actors.append(actor)
 
     def coinflip(self):
         return bool(self.rng.randint(0,1))

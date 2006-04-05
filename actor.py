@@ -1,3 +1,5 @@
+# vim:set ts=4 sts=4 et ai:
+
 from errors import *
 import commands
 import armor
@@ -16,7 +18,7 @@ class Actor (object):
         self._world = world
         self._world.enter(y,x,self)
         self._hp, self.hpmax, self._mp, self.mpmax = 1, 1, 1, 1
-        self.wait_until = self._world.game.time
+        self.wait_until = self._world.game.time + self.move_speed
         self._gold = 0
 
     def __str__(self):
@@ -32,7 +34,9 @@ class Actor (object):
         for x in xrange(self.hd):
             self.hpmax += self._world.game.rng.randint(1,7)
         self._hp = self.hpmax
-        self._gold = self._world.game.rng.randint(0,self.hd * self.hpmax / self._hp * 5)
+        self._gold = self._world.game.rng.randint(
+                0, self.hd * self.hpmax / self._hp * 5
+            )
 
     def do_walk(self,y,x):
         """T.do_walk(y,x) -> integer"""

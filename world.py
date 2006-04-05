@@ -1,3 +1,5 @@
+# vim:set sts=4 et ai:
+
 import commands
 import weapon
 import armor
@@ -52,14 +54,16 @@ class Area (object):
                 else:
                     self.cell[k][j] = 0
         self.occ = {}
+    	actors = []
         for x in xrange(self.game.rng.randint(2,7)):
-            self.game.queue_actor(generate_monster(World))
+            actors.append(generate_monster(World))
         self.item = {}
         for x in xrange(self.game.rng.randint(1,3)):
-            w = weapon.generate(self.game.rng,self.depth)
-            self.place(w)
+            self.place(weapon.generate(self.game.rng,self.depth))
         for x in xrange(self.game.rng.randint(1,3)):
             self.place(armor.generate(self.game.rng,self.depth))
+        actors.sort()
+        return actors
 
     def is_valid(self,y,x):
         """A.is_valid(y,x) -> bool
@@ -90,7 +94,10 @@ class Area (object):
                 pass
 
     def leave(self,y,x,thing):
-        del self.occ[y,x]
+        try:
+            del self.occ[y,x]
+        except KeyError:
+            self.game.term.msg('LEAVE from nowhere: %d, %d' % (y, x))
 
 if __name__ == '__main__':
     print Hero.XPLEVELS
