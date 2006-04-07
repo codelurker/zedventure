@@ -1,8 +1,8 @@
-__all__ = ('command')
+__all__ = ('ascii','command')
 
 from commands import *
 
-ascii = False
+ascii = True
 
 command = {
     '@': (status,),
