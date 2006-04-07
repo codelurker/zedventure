@@ -36,6 +36,7 @@ class Zedventure (object):
         self.hero = Hero(self.area,1,1,None)
         self.actors = [self.hero]
         self.actors.extend(self.area.generate(0))
+        self.area.enter(self.hero.y, self.hero.x, self.hero)
         self.term.redraw()
         # start the game
         self.running = True
