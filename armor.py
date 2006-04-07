@@ -126,7 +126,7 @@ class PlateArmor(Armor):
 ARMOR = (PaddedArmor,LeatherArmor,BoneArmor,ChainMail,ScaleMail,
         SplintMail,PlateMail,PlateArmor)
 def generate(rng,depth):
-    which = rng.randint(2,5)
+    which = rng.randint(2,3)
     bonus = rng.randint(1,3)
     if depth < 4:
         which -= 2
@@ -138,6 +138,9 @@ def generate(rng,depth):
         bonus += 1
     elif depth < 14:
         which += 2
+        bonus += 2
+    elif depth < 21:
+        which += 4
         bonus += 2
     if rng.randint(0,1): bonus = 0
     mat = rng.sample(list(ARMOR[which].materials),1)[0]

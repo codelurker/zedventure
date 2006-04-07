@@ -215,17 +215,22 @@ Naginata
 ]
 
 def generate(rng,depth):
-    type = rng.randint(0,5) * 7
-    which = rng.randint(1,5)
-    if depth < 7:
+    type = rng.randint(1,7)
+    which = rng.randint(1,2)
+    bonus = 0
+    if depth < 3:
+        which -= 1
+    elif depth < 7:
         bonus = rng.randint(0,2)
         which -= 1
     elif depth < 14:
-        bonus = rng.randint(1,4)
-    else:
-        bonus = rng.randint(2,6)
+        bonus = rng.randint(1,3)
+    elif depth < 21:
+        bonus = rng.randint(2,4)
         which += 1
+    else:
+        bonus = rng.randint(1,3)
     if rng.randint(0,1): bonus = 0
-    item = WEAPONS[type + which](bonus)
+    item = WEAPONS[type * which + 1](bonus)
     return item
 

@@ -55,12 +55,12 @@ class Area (object):
                     self.cell[k][j] = 0
         self.occ = {}
     	actors = []
-        for x in xrange(self.game.rng.randint(2,7)):
+        for x in xrange(self.game.rng.randint(2,3 + ((self.depth + 3) / 3))):
             actors.append(generate_monster(World))
         self.item = {}
-        for x in xrange(self.game.rng.randint(1,3)):
+        for x in xrange(self.game.rng.randint(0, 3 + ((self.depth + 1) / 2))):
             self.place(weapon.generate(self.game.rng,self.depth))
-        for x in xrange(self.game.rng.randint(1,3)):
+        for x in xrange(self.game.rng.randint(0, 2 + ((self.depth + 1) / 2))):
             self.place(armor.generate(self.game.rng,self.depth))
         actors.sort()
         return actors
