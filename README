@@ -2,10 +2,11 @@ This is zedventure, a simple roguelike game written in Python. The object
 of the game is never the same, nor is the dungeon. You have only your own
 aspirations and skills to guide you. Good luck!
 
-Zedventure is a small game, in terms of the amount of code required. This
-game was written from scratch in seven days, inspired by a discussion on
-the usenet group rec.games.roguelike.development. The game is designed for
-maximum replayability with a modest implementation size and time.
+Zedventure is a small game, in terms of the amount of code required. The
+first playable version of this game was written from scratch in seven days,
+inspired by a discussion on the usenet group rec.games.roguelike.development.
+The game is designed for maximum replayability with a modest implementation
+size and time.
 
 Zack Hobson
 zhobson@gmail.com
