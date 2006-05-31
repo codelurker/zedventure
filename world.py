@@ -4,10 +4,10 @@ import commands
 import weapon
 import armor
 from actor import *
+from monster import *
 from errors import *
 
 World = None
-
 
 class Area (object):
     """Generate a single dungeon area."""
@@ -23,10 +23,13 @@ class Area (object):
         World = self
 
     def size(self):
+        """A.size() -> tuple
+        
+        Returns the size of the area as (y, x)."""
         return (self.y, self.x)
 
     def resize(self,ydim,xdim):
-        if not xdim % 2: xdim -= 1
+        if not xdim % 2: xdim -= 1 # xdim must be odd, it's a fake-hex thing
         self.y, self.x = ydim, xdim
         self.cell = [[0 for x in xrange(self.x)] for y in xrange(self.y)]
         self.occ = {}
@@ -55,7 +58,7 @@ class Area (object):
                     self.cell[k][j] = 0
         self.occ = {}
     	actors = []
-        for x in xrange(self.game.rng.randint(2,3 + ((self.depth + 3) / 3))):
+        for x in xrange(self.game.rng.randint(7,min(20, 7 + self.depth/2))):
             actors.append(generate_monster(World))
         self.item = {}
         for x in xrange(self.game.rng.randint(0, 3 + ((self.depth + 1) / 2))):
@@ -98,7 +101,4 @@ class Area (object):
             del self.occ[y,x]
         except KeyError:
             self.game.term.msg('LEAVE from nowhere: %d, %d' % (y, x))
-
-if __name__ == '__main__':
-    print Hero.XPLEVELS
 

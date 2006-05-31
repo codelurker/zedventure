@@ -2,11 +2,10 @@
 
 import sys
 import random
-from heapq import heappush, heappop, heapreplace
 
 import config
 import world
-from actor import Hero
+from hero import Hero
 from term import Term
 from errors import *
 
@@ -32,7 +31,8 @@ class Zedventure (object):
         # init the interface
         self.area = world.Area(self)
         self.term = Term(self,screen)
-        self.area.resize(*self.term.viewsize())
+        (y, x) = self.term.viewsize()  # wtf? why can't curses
+        self.area.resize(y, x-1)       # draw on the screen edge?
         self.hero = Hero(self.area,1,1,None)
         self.actors = [self.hero]
         self.actors.extend(self.area.generate(0))

@@ -84,6 +84,7 @@ class Term (object):
     def msg(self,data):
         """Print a game message."""
         if not data: return
-        self.wmsg.addstr("\n%s" % data.capitalize())
+	# uppercase the first letter
+        self.wmsg.addstr("\n%s" % data[0].upper() + data[1:])
         self.wmsg.noutrefresh()
 
