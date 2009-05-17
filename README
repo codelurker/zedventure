@@ -5,12 +5,11 @@ aspirations and skills to guide you. Good luck!
 See the file config.py for the default keybindings. They are similar to
 rogue's hjkl movement.
 
-Zedventure is a small game, in terms of the amount of code required. The
-first playable version of this game was written from scratch in seven days,
+The first playable version of this game was written from scratch in seven days,
 inspired by a discussion on the usenet group rec.games.roguelike.development.
-The game is designed for maximum replayability with a modest implementation
-size and time.
+However it has outgrown those restrictions and is now simply a base layer upon
+which I can implement my own roguelike game design.
 
 Zack Hobson
-zhobson@gmail.com
+zack@zackhobson.com
 

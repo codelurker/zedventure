@@ -39,7 +39,7 @@ class Actor (object):
         yy = self.y + y
         xx = self.x + x
         if not self._world.is_valid(yy,xx):
-            raise NoSuchPlace, "%d, %d" % (yy,xx)
+            raise NoSuchPlace("%d, %d" % (yy,xx))
         elif self._world.is_block(yy,xx):
             raise MovementBlocked
         elif self._world.is_occ(yy,xx):

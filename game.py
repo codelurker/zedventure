@@ -9,14 +9,9 @@ from hero import Hero
 from term import Term
 from errors import *
 
-MyGame = None
-
 class Zedventure (object):
     __slots__ = ('time','area','hero','actors','term','running','rng')
     def __init__(self,args):
-        # set global instance
-        global MyGame
-        MyGame = self
         # init the game
         self.time = 0
         self.area = None

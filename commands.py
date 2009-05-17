@@ -113,5 +113,6 @@ def move_south(game):
     except:
         # something went wrong, try using move() to walk
         # the alternate direction instead
+        _last_east = not _last_east
         return move(game,dir2)
 
