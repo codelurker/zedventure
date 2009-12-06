@@ -7,8 +7,11 @@ rogue's hjkl movement.
 
 The first playable version of this game was written from scratch in seven days,
 inspired by a discussion on the usenet group rec.games.roguelike.development.
-However it has outgrown those restrictions and is now simply a base layer upon
-which I can implement my own roguelike game design.
+However it has outgrown those restrictions and is now simply a base upon which
+I can experiment with game ideas.
+
+Zedventure is distributed under the terms of the GNU General Public License,
+see the LICENSE file for details.
 
 Zack Hobson
 zack@zackhobson.com
