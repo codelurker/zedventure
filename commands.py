@@ -44,6 +44,7 @@ def pickup(game):
         game.term.msg('you pick up %s.' % item)
     except KeyError:
         game.term.msg('there is nothing here to pick up.')
+        return 0
     return 7
 
 def wait(game):
