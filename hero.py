@@ -64,7 +64,7 @@ class Hero (Actor):
             try:
                 opponent.hp -= damage
                 self._world.game.term.msg('you hit %s.' % opponent)
-            except WasKilled, exc:
+            except WasKilled as exc:
                 self._world.game.term.msg('you killed %s.' % exc.victim)
                 self.xp += exc.victim.hd * self._world.game.rng.randint(1,3)
                 exc.victim.die()
@@ -85,7 +85,7 @@ class Hero (Actor):
                 self.hp += 1
         self.wait_until = self._world.game.time + time_passed
 
-    XPLEVELS = [20 * (_maxlvl ** 2) + 10 for _maxlvl in xrange(20)]
+    XPLEVELS = [20 * (_maxlvl ** 2) + 10 for _maxlvl in range(20)]
     def get_xp(self): return self._xp
     def set_xp(self,new_xp):
         try:

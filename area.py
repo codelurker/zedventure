@@ -27,7 +27,7 @@ class Area (object):
     def resize(self,ydim,xdim):
         if not xdim % 2: xdim -= 1 # xdim must be odd, it's a fake-hex thing
         self.y, self.x = ydim, xdim
-        self.cell = [[0 for x in xrange(self.x)] for y in xrange(self.y)]
+        self.cell = [[0 for x in range(self.x)] for y in range(self.y)]
         self.occ = {}
         self.item = {}
 
@@ -46,22 +46,22 @@ class Area (object):
     def generate(self,increment):
         self.depth += increment
         if self.depth < 0: raise Escaped
-        for k in xrange(self.y):
-            for j in xrange(self.x):
+        for k in range(self.y):
+            for j in range(self.x):
                 if self.game.percent_chance(25):
                     self.cell[k][j] = 6
                 else:
                     self.cell[k][j] = 0
         self.occ = {}
-    	actors = []
-        for x in xrange(self.game.rng.randint(7,min(20, 7 + self.depth/2))):
+        actors = []
+        for x in range(self.game.rng.randint(7,min(20, 7 + self.depth/2))):
             actors.append(generate_monster(self))
         self.item = {}
-        for x in xrange(self.game.rng.randint(0, 3 + ((self.depth + 1) / 2))):
+        for x in range(self.game.rng.randint(0, 3 + ((self.depth + 1) // 2))):
             self.place(weapon.generate(self.game.rng,self.depth))
-        for x in xrange(self.game.rng.randint(0, 2 + ((self.depth + 1) / 2))):
+        for x in range(self.game.rng.randint(0, 2 + ((self.depth + 1) // 2))):
             self.place(armor.generate(self.game.rng,self.depth))
-        actors.sort()
+        actors.sort(key=lambda x: x.wait_until)
         return actors
 
     def is_valid(self,y,x):
@@ -74,7 +74,7 @@ class Area (object):
         """A.is_occ(y,x) -> bool
         
         True if the position is occupied by another Thing, False otherwise."""
-        return self.occ.has_key((y,x))
+        return (y,x) in self.occ
 
     def is_block(self,y,x):
         """A.is_block(y,x) -> bool

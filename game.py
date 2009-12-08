@@ -69,7 +69,7 @@ class Zedventure (object):
     def queue_actor(self,actor):
         done = False
         for i,a in enumerate(self.actors):
-            if cmp(a, actor) > 0:
+            if a > actor:
                 self.actors.remove(actor)
                 self.actors.insert(i, actor)
                 done = True

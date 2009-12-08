@@ -54,12 +54,12 @@ class Term (object):
     def draw_main(self):
         y, x = self.game.area.size()
         count = 1
-        for k in xrange(y):
-            for j in xrange(x):
+        for k in range(y):
+            for j in range(x):
                 if count % 2:
                     self.main.addch(k,j,TILES[self.game.area.cell[k][j]])
                 count += 1
-        for loc, item in self.game.area.item.iteritems():
+        for loc, item in self.game.area.item.items():
             i, j = loc
             self.main.addch(i,j,item.glyph())
         for actor in self.game.area.occ.values():

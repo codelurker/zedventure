@@ -1,6 +1,4 @@
 
-from sets import ImmutableSet as iset
-
 class Weapon (object):
     """Abstract class for weapons.
     
@@ -33,135 +31,135 @@ class Weapon (object):
 # BLADES
 class Dagger(Weapon):
     name = 'dagger'; speed = 5; hit = 8; damage = (2,4)
-    type = iset(['piercing'])
+    type = frozenset(['piercing'])
 class ShortSword(Weapon):
     name = 'short sword'; speed = 6; hit = 7; damage = (2,6)
-    type = iset(['slashing', 'piercing'])
+    type = frozenset(['slashing', 'piercing'])
 class Sickle(Weapon):
     name = 'sickle'; speed = 5; hit = 6; damage = (3,7)
-    type = iset(['slashing'])
+    type = frozenset(['slashing'])
 class Scimitar(Weapon):
     name = 'scimitar'; speed = 7; hit = 7; damage = (2,8)
-    type = iset(['slashing'])
+    type = frozenset(['slashing'])
 class Falchion(Weapon):
     name = 'falchion'; speed = 7; hit = 6; damage = (3,9)
-    type = iset('slashing')
+    type = frozenset('slashing')
 class LongSword(Weapon):
     name = 'long sword'; speed = 7; hit = 6; damage = (4,11)
-    type = iset(['slashing', 'piercing'])
+    type = frozenset(['slashing', 'piercing'])
 class Katana(Weapon):
     name = 'katana'; speed = 4; hit = 7; damage = (4,13)
-    type = iset(['slashing', 'piercing'])
+    type = frozenset(['slashing', 'piercing'])
 # AXES
 class HandAxe(Weapon):
     name = 'hand axe'; speed = 7; hit = 7; damage = (3,6)
-    type = iset(['slashing', 'bludgeoning'])
+    type = frozenset(['slashing', 'bludgeoning'])
 class PickAxe(Weapon):
     name = 'pick-axe'; speed = 7; hit = 5; damage = (3,8)
-    type = iset(['piercing', 'bludgeoning'])
+    type = frozenset(['piercing', 'bludgeoning'])
 class HeavyPick(Weapon):
     name = 'heavy pick'; speed = 7; hit = 4; damage = (4,9)
-    type = iset(['piercing', 'bludgeoning'])
+    type = frozenset(['piercing', 'bludgeoning'])
 class BattleAxe(Weapon):
     name = 'battle axe'; speed = 8; hit = 6; damage = (4,10)
-    type = iset(['slashing', 'bludgeoning'])
+    type = frozenset(['slashing', 'bludgeoning'])
 class WarAxe(Weapon):
     name = 'war axe'; speed = 8; hit = 5; damage = (4,12)
-    type = iset(['slashing', 'bludgeoning'])
+    type = frozenset(['slashing', 'bludgeoning'])
 class GreatAxe(Weapon):
     name = 'great axe'; speed = 8; hit = 5; damage = (5,14)
-    type = iset(['slashing', 'bludgeoning'])
+    type = frozenset(['slashing', 'bludgeoning'])
 class DoubleAxe(Weapon):
     name = 'double axe'; speed = 4; hit = 5; damage = (5,14)
-    type = iset(['slashing', 'bludgeoning'])
+    type = frozenset(['slashing', 'bludgeoning'])
 # POLEARMS
 class ShortStaff(Weapon):
     name = 'short staff'; speed = 4; hit = 8; damage = (2,4)
-    type = iset(['bludgeoning'])
+    type = frozenset(['bludgeoning'])
 class Spear(Weapon):
     name = 'spear'; speed = 6; hit = 6; damage = (3,6)
-    type = iset(['piercing'])
+    type = frozenset(['piercing'])
 class Quarterstaff(Weapon):
     name = 'quarterstaff'; speed = 4; hit = 8; damage = (2,5)
-    type = iset(['bludgeoning'])
+    type = frozenset(['bludgeoning'])
 class LongSpear(Weapon):
     name = 'long spear'; speed = 7; hit = 6; damage = (3,8)
-    type = iset(['piercing'])
+    type = frozenset(['piercing'])
 class Trident(Weapon):
     name = 'trident'; speed = 8; hit = 5; damage = (3,12)
-    type = iset(['piercing'])
+    type = frozenset(['piercing'])
 class Scythe(Weapon):
     name = 'scythe'; speed = 8; hit = 4; damage = (4,14)
-    type = iset(['slashing', 'piercing'])
+    type = frozenset(['slashing', 'piercing'])
 class Halberd(Weapon):
     name = 'halberd'; speed = 9; hit = 3; damage = (5,17)
-    type = iset(['slashing', 'piercing'])
+    type = frozenset(['slashing', 'piercing'])
 # BLUDGEONS
 class Club(Weapon):
     name = 'club'; speed = 7; hit = 9; damage = (1,5)
-    type = iset(['bludgeoning'])
+    type = frozenset(['bludgeoning'])
 class SpikedClub(Weapon):
     name = 'spiked club'; speed = 7; hit = 7; damage = (3,7)
-    type = iset(['bludgeoning', 'piercing'])
+    type = frozenset(['bludgeoning', 'piercing'])
 class Mace(Weapon):
     name = 'mace'; speed = 7; hit = 6; damage = (3,8)
-    type = iset(['bludgeoning'])
+    type = frozenset(['bludgeoning'])
 class Morningstar(Weapon):
     name = 'morningstar'; speed = 7; hit = 6; damage = (4,10)
-    type = iset(['bludgeoning', 'piercing'])
+    type = frozenset(['bludgeoning', 'piercing'])
 class Flail(Weapon):
     name = 'heavy flail'; speed = 8; hit = 4; damage = (4,12)
-    type = iset(['bludgeoning'])
+    type = frozenset(['bludgeoning'])
 class DireMace(Weapon):
     name = 'dire mace'; speed = 5; hit = 5; damage = (5,12)
-    type = iset(['bludgeoning'])
+    type = frozenset(['bludgeoning'])
 class WarHammer(Weapon):
     name = 'war hammer'; speed = 7; hit = 5; damage = (7,20)
-    type = iset(['bludgeoning'])
+    type = frozenset(['bludgeoning'])
 # IMPROVISED
 class BigRock(Weapon):
     name = 'big rock'; speed = 7; hit = 9; damage = (1,2)
-    type = iset(['bludgeoning'])
+    type = frozenset(['bludgeoning'])
 class PoolCue(Weapon):
     name = 'pool cue'; speed = 7; hit = 6; damage = (1,3)
-    type = iset(['bludgeoning'])
+    type = frozenset(['bludgeoning'])
 class Chain(Weapon):
     name = 'chain'; speed = 7; hit = 5; damage = (1,5)
-    type = iset(['bludgeoning'])
+    type = frozenset(['bludgeoning'])
 class Crowbar(Weapon): 
     name = 'crowbar'; speed = 7; hit = 6; damage = (3,7)
-    type = iset(['bludgeoning'])
+    type = frozenset(['bludgeoning'])
 class WoodenBat(Weapon):
     name = 'wooden bat'; speed = 7; hit = 7; damage = (2,5)
-    type = iset(['bludgeoning'])
+    type = frozenset(['bludgeoning'])
 class MetalBat(Weapon):
     name = 'metal bat'; speed = 7; hit = 7; damage = (3,6)
-    type = iset(['bludgeoning'])
+    type = frozenset(['bludgeoning'])
 class Machete(Weapon):
     name = 'machete'; speed = 7; hit = 7; damage = (4,8)
-    type = iset(['slashing'])
+    type = frozenset(['slashing'])
 # EXOTIC
 class Sap(Weapon):
     name = 'sap'; speed = 7; hit = 6; damage = (1,3)
-    type = iset(['bludgeoning'])
+    type = frozenset(['bludgeoning'])
 class BrassKnuckles(Weapon):
     name = 'set of brass knuckles'; speed = 7; hit = 8; damage = (2,4)
-    type = iset(['bludgeoning'])
+    type = frozenset(['bludgeoning'])
 class Saingham(Weapon):
     name = 'saingham'; speed = 7; hit = 6; damage = (2,5)
-    type = iset(['piercing'])
+    type = frozenset(['piercing'])
 class Kukri(Weapon):
     name = 'kukri'; speed = 6; hit = 6; damage = (3,7)
-    type = iset(['slashing'])
+    type = frozenset(['slashing'])
 class Nunchaku(Weapon):
     name = 'nunchaku'; speed = 4; hit = 5; damage = (4,8)
-    type = iset(['bludgeoning'])
+    type = frozenset(['bludgeoning'])
 class Katar(Weapon):
     name = 'katar'; speed = 5; hit = 5; damage = (5,10)
-    type = iset(['slashing', 'piercing'])
+    type = frozenset(['slashing', 'piercing'])
 class Naginata(Weapon):
     name = 'naginata'; speed = 5; hit = 5; damage = (3,12)
-    type = iset(['bludgeoning'])
+    type = frozenset(['bludgeoning'])
 
 WEAPONS = [
 # BLADES

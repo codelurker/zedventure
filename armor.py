@@ -1,4 +1,3 @@
-from sets import ImmutableSet as iset
 # TODO: damage type (see weapon.py)
 
 class Material (object): # abstract material class
@@ -92,35 +91,35 @@ class Armor (object): # abstract class
 ###  ARMOR  ###
 class PaddedArmor(Armor):
     name = 'padded armor'; base_evade = 5; base_ac = 2; mass = 2
-    materials = iset(['cloth'])
+    materials = frozenset(['cloth'])
 
 class LeatherArmor(Armor):
     name = 'leather armor'; base_evade = 4; base_ac = 3; mass = 4
-    materials = iset(['leather'])
+    materials = frozenset(['leather'])
 
 class BoneArmor(Armor):
     name = 'bone armor'; base_evade = 6; base_ac = 4; mass = 3
-    materials = iset(['bone'])
+    materials = frozenset(['bone'])
 
 class ChainMail(Armor):
     name = 'chain mail'; base_evade = 3; base_ac = 6; mass = 5
-    materials = iset(['steel','bronze','silver','gold','mithril'])
+    materials = frozenset(['steel','bronze','silver','gold','mithril'])
 
 class ScaleMail(Armor):
     name = 'scale mail'; base_evade = 2; base_ac = 8; mass = 6
-    materials = iset(['steel','bronze','silver','gold','mithril'])
+    materials = frozenset(['steel','bronze','silver','gold','mithril'])
 
 class SplintMail(Armor):
     name = 'splint mail'; base_evade = 1; base_ac = 9; mass = 7
-    materials = iset(['steel','bronze','silver','gold','mithril'])
+    materials = frozenset(['steel','bronze','silver','gold','mithril'])
 
 class PlateMail(Armor):
     name = 'plate mail'; base_evade = 1; base_ac = 10; mass = 8
-    materials = iset(['steel','bronze','silver','gold','mithril'])
+    materials = frozenset(['steel','bronze','silver','gold','mithril'])
 
 class PlateArmor(Armor):
     name = 'full plate armor'; base_evade = 0; base_ac = 11; mass = 9
-    materials = iset(['steel','bronze','silver','gold','mithril'])
+    materials = frozenset(['steel','bronze','silver','gold','mithril'])
 
 ###  GENERATOR  ###
 ARMOR = (PaddedArmor,LeatherArmor,BoneArmor,ChainMail,ScaleMail,

@@ -25,11 +25,13 @@ class Actor (object):
         else:
             return "it"
 
-    def __cmp__(self,other): return cmp(self.wait_until, other.wait_until)
+    def __lt__(self,other): return self.wait_until < other.wait_until
+    def __gt__(self,other): return self.wait_until > other.wait_until
+    def __eq__(self,other): return self.wait_until == other.wait_until
 
     def generate(self):
         self.hpmax = 0
-        for x in xrange(self.hd):
+        for x in range(self.hd):
             self.hpmax += self._world.game.rng.randint(1,7)
         self._hp = self.hpmax
         self._gold = self._world.game.rng.randint( 0, self.hd * 7 )

@@ -1,7 +1,7 @@
 class Gold (object):
     __slots__ = ('amount')
 
-    def __init__(self,amount):
+    def __init__(self,amount = None):
         if amount:
             self.amount = amount
         else:
