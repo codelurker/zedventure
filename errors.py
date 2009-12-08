@@ -1,3 +1,6 @@
+class QuitGame (Exception):
+    pass
+
 class AlreadyOccupied (Exception):
     pass
 

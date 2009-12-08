@@ -10,7 +10,7 @@ from term import Term
 from errors import *
 
 class Zedventure (object):
-    __slots__ = ('time','area','hero','actors','term','running','rng')
+    __slots__ = ('time','area','hero','actors','term','rng')
     def __init__(self,args):
         # init the game
         self.time = 0
@@ -18,7 +18,6 @@ class Zedventure (object):
         self.term = None
         self.hero = None
         self.actors = []
-        self.running = False
         self.rng = random.Random()
 
     def __call__(self,screen):
@@ -34,23 +33,27 @@ class Zedventure (object):
         self.area.enter(self.hero.y, self.hero.x, self.hero)
         self.term.redraw()
         # start the game
-        self.running = True
-        while self.running:
+        running = True
+        while running:
             actor = self.actors[0]
-            if actor.wait_until <= self.time:
-                try:
+            try:
+                while actor.wait_until <= self.time:
                     actor.act()
-                except Escaped:
-                    self.term.msg('You escaped with %d gold!' % self.hero.gold)
-                    self.term.waitforkey()
-                    self.running = False
-                except WasKilled:
-                    self.term.msg('You died.')
-                    self.term.waitforkey()
-                    self.running = False
-                self.queue_actor(actor)
-            else:
+            except QuitGame:
+                self.term.msg('Goodbye, thanks for playing!')
+                self.term.waitforkey()
+                running = False
+            except Escaped:
+                self.term.msg('You escaped with %d gold!' % self.hero.gold)
+                self.term.waitforkey()
+                running = False
+            except WasKilled:
+                self.term.msg('You died.')
+                self.term.waitforkey()
+                running = False
+            finally:
                 self.time += 1
+            self.queue_actor(actor)
 
     def new_level(self,increment):
         self.actors = self.area.generate(increment)

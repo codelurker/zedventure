@@ -51,7 +51,7 @@ def wait(game):
     return 7
 
 def quit(game):
-    game.running = False
+    raise QuitGame
     return 0
 
 def downstairs(game):
