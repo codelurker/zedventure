@@ -4,7 +4,7 @@ import sys
 import random
 
 import config
-import world
+import area
 from hero import Hero
 from term import Term
 from errors import *
@@ -23,7 +23,7 @@ class Zedventure (object):
     def __call__(self,screen):
         """Z(screen) -> None"""
         # init the interface
-        self.area = world.Area(self)
+        self.area = area.Area(self)
         self.term = Term(self,screen)
         (y, x) = self.term.viewsize()  # wtf? why can't curses
         self.area.resize(y, x-1)       # draw on the screen edge?
