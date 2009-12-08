@@ -7,8 +7,6 @@ from actor import *
 from monster import *
 from errors import *
 
-World = None
-
 class Area (object):
     """Generate a single dungeon area."""
     __slots__ = ('depth','y','x','cell','occ','item','game')
@@ -19,8 +17,6 @@ class Area (object):
         self.cell = [[0,0],[0,0]]
         self.occ = {}
         self.item = {}
-        global World
-        World = self
 
     def size(self):
         """A.size() -> tuple
@@ -37,10 +33,10 @@ class Area (object):
 
     def place(self,item,y=None,x=None):
         if y == None and x == None:
-            y, x = World.size()
+            y, x = self.size()
             while True:
-                k = World.game.rng.randrange(1,y,2)
-                j = World.game.rng.randrange(1,x,2)
+                k = self.game.rng.randrange(1,y,2)
+                j = self.game.rng.randrange(1,x,2)
                 if not self.is_block(k,j):
                     break
             self.item[k,j] = item
@@ -59,7 +55,7 @@ class Area (object):
         self.occ = {}
     	actors = []
         for x in xrange(self.game.rng.randint(7,min(20, 7 + self.depth/2))):
-            actors.append(generate_monster(World))
+            actors.append(generate_monster(self))
         self.item = {}
         for x in xrange(self.game.rng.randint(0, 3 + ((self.depth + 1) / 2))):
             self.place(weapon.generate(self.game.rng,self.depth))
