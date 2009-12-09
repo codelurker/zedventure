@@ -54,7 +54,7 @@ class Area (object):
                     self.cell[k][j] = 0
         self.occ = {}
         actors = []
-        for x in range(self.game.rng.randint(7,min(20, 7 + self.depth/2))):
+        for x in range(self.game.rng.randint(7,min(20, 7 + int(self.depth/2)))):
             actors.append(generate_monster(self))
         self.item = {}
         for x in range(self.game.rng.randint(0, 3 + ((self.depth + 1) // 2))):
