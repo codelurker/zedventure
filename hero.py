@@ -91,7 +91,7 @@ class Hero (Actor):
         try:
             while new_xp >= self.XPLEVELS[self.xplvl-1]:
                 self.xplvl += 1
-                hpinc = self._world.game.rng.randint(7,7 * self.xplvl / 2)
+                hpinc = self._world.game.rng.randint(7,7 * int(self.xplvl / 2))
                 self.hpmax += hpinc
                 self.hp += hpinc
                 self._world.game.term.msg('you have reached experience level %d!' % self.xplvl)
